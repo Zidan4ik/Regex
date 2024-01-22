@@ -1,9 +1,9 @@
-package task.example;
+package task.example.symbols;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SpecialSymbosl {
+public class SpecialSymbols {
     public static void main(String[] args) {
         int year = 2003;
         String n3 = "[a-zA-z]+\\(+\\d{2}\\.\\d{2}\\.("+year+")+\\)";

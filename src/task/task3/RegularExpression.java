@@ -5,21 +5,67 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegularExpression {
-    public static void checkDate(){
+    public static void main(String[] args) {
+        checkDate();
+    }
+
+    public static String checkDate() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введіть строку (date) на перевірку правильності: ");
-        String email = scanner.nextLine();
+       while(true){
+           System.out.println("Введіть строку (date) на перевірку правильності: ");
+           String date = scanner.nextLine();
 
-        String validation = "((\\b(0[1-9]|1[0-9]|2[0-8]|3[1-2])+\\.(0[1-9]|1[0-2])*\\.*((0[0-9]{3})|(1[0-9]{3})|(2[0-9]{3}))\\b))|((\\b(0[1-9]|1[0-9]|2[0-8]|3[1-2])+\\/(0[1-9]|1[0-2])*\\/*((0[0-9]{3})|(1[0-9]{3})|(2[0-9]{3}))\\b)) | (0[0-9]{3})|(1[0-9]{3})|(2[0-9]{3})";
-        Pattern pattern = Pattern.compile(validation);
-        Matcher matcher = pattern.matcher(email);
+           String validation = "\\b((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[1-9]|1[0-2])\\.)+([0-9]{4}) +\\d[0-23]\\:\\d[0-59]\\:\\d[0-59]\\b|\\b((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[1-9]|1[0-2])\\.)+([0-9]{4})\\b|\\b((0[1-9]|1[0-2])\\.)+([0-9]{4})\\b|\\b([0-9]{4})\\b";
+           Pattern pattern = Pattern.compile(validation);
+           Matcher matcher = pattern.matcher(date);
 
-        if (matcher.find()) {
-            System.out.println("правильно");
-        } else {
-            System.out.println("не правильно");
+           if (matcher.find()) {
+               scanner.close();
+               return date;
+           } else {
+               System.out.println("не правильно");
+           }
+
+       }
+    }
+
+    public static void rebuild(String date) {
+        String[] array = date.split(" ");
+        String[] arrayDate = new String[0];
+        String[] arrayTime = new String[0];
+        String result = "";
+        if (array.length == 1) {
+            arrayDate = array[0].split("\\.");
+        } else if (array.length == 2) {
+            arrayDate = array[0].split("\\.");
+            arrayTime = array[1].split(":");
         }
 
-        scanner.close();
+        if (arrayDate.length != 0 && arrayTime.length != 0) {
+            if (arrayDate.length == 1) {
+                result += "рік: " + arrayDate[0];
+            } else if (arrayDate.length == 2) {
+                result += "місяць: " + arrayDate[0] + ", рік: " + arrayDate[1];
+            } else if (arrayDate.length == 3) {
+                result += "день: " + arrayDate[0] + ", місяць: " + arrayDate[1] + ", рік: " + arrayDate[2];
+            }
+
+            if (arrayTime.length == 1) {
+                result += ", " + arrayTime[0] + " годин. ";
+            } else if (arrayTime.length == 2) {
+                result += ", " + arrayTime[0] + " годин " + arrayTime[1] + " хвилин. ";
+            } else if (arrayTime.length == 3) {
+                result += ", " + arrayTime[0] + " годин " + arrayTime[1] + " хвилин " + arrayTime[2] + " секунд. ";
+            }
+        } else {
+            if (arrayDate.length == 1) {
+                result += "день: " + arrayDate[0];
+            } else if (arrayDate.length == 2) {
+                result += "день: " + arrayDate[0] + ", місяць: " + arrayDate[1];
+            } else if (arrayDate.length == 3) {
+                result += "день: " + arrayDate[0] + ", місяць: " + arrayDate[1] + ", рік: " + arrayDate[2];
+            }
+        }
+        System.out.println(result);
     }
 }

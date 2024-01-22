@@ -1,4 +1,4 @@
-package task.example;
+package task.example.symbols;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +8,7 @@ public class SpecialSymbols2 {
 
         Pattern pattern1 = Pattern.compile("ab*\\w+");
         Matcher matcher1 = pattern1.matcher("ac abbc");
+        System.out.println("***************SpecialSymbols***************");
         System.out.print("\nexample 1:  ");
         while (matcher1.find()) {System.out.print(matcher1.group()+" ");}
 
