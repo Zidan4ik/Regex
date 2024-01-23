@@ -36,15 +36,17 @@ public class RegularExpression {
         String[] arrayTime = new String[0];
         String result = "";
         if (array.length == 1) {
-            if(array[0].contains("/")){
+            if (array[0].contains("/")) {
                 arrayDate = array[0].split("/");
-            }else if(array[0].contains(".")){
+            } else if (array[0].contains(".")) {
                 arrayDate = array[0].split("\\.");
+            } else {
+                arrayDate = array;
             }
         } else if (array.length == 2) {
-            if(array[0].contains("/")){
+            if (array[0].contains("/")) {
                 arrayDate = array[0].split("/");
-            }else if(array[0].contains(".")){
+            } else if (array[0].contains(".")) {
                 arrayDate = array[0].split("\\.");
             }
 
