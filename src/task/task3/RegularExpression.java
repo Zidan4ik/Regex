@@ -5,28 +5,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegularExpression {
-    public static void main(String[] args) {
-        checkDate();
-    }
 
-    public static String checkDate() {
+    public static void checkDate() {
         Scanner scanner = new Scanner(System.in);
-       while(true){
-           System.out.println("Введіть строку (date) на перевірку правильності: ");
-           String date = scanner.nextLine();
+        while (true) {
+            System.out.println("Введіть строку (date) на перевірку правильності: ");
+            String date = scanner.nextLine();
 
-           String validation = "\\b((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[1-9]|1[0-2])\\.)+([0-9]{4}) +\\d[0-23]\\:\\d[0-59]\\:\\d[0-59]\\b|\\b((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[1-9]|1[0-2])\\.)+([0-9]{4})\\b|\\b((0[1-9]|1[0-2])\\.)+([0-9]{4})\\b|\\b([0-9]{4})\\b";
-           Pattern pattern = Pattern.compile(validation);
-           Matcher matcher = pattern.matcher(date);
+            String validation = "^((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[13-9]|1[0-2])\\.)+([0-9]{4})$|^((0[1-9]|1[0-9]|2[0-9])\\.)+(02\\.)+(\\d{2}(([02468][048])|([13579][26]))|([02468][048]|[13579][26])00)$|^((0[1-9]|1[0-9]|2[0-8])\\.)+((02)\\.)+([0-9]{4})$|^((0[1-9]|1[0-9]|2[0-9]|3[0-1])\\.)+((0[13-9]|1[0-2])\\.)+([0-9]{4}) +\\d[0-23]\\:\\d[0-59]\\:\\d[0-59]$|^((0[1-9]|1[0-9]|2[0-9])\\.)+(02\\.)*(\\d{2}(([02468][048])|([13579][26]))|([02468][048]|[13579][26])00) +\\d[0-23]\\:\\d[0-59]\\:\\d[0-59]$|^((0[1-9]|1[0-9]|2[0-8])\\.)+((02)\\.)+([0-9]{4}) +\\d[0-23]\\:\\d[0-59]\\:\\d[0-59]$|^((0[1-9]|1[0-2])\\.)+([0-9]{4})$|^([0-9]{4})$";
 
-           if (matcher.find()) {
-               scanner.close();
-               return date;
-           } else {
-               System.out.println("не правильно");
-           }
+            Pattern pattern = Pattern.compile(validation);
+            if (date.contains("/")) {
+                String MPS = validation.replace("\\.", "\\/");
+                pattern = Pattern.compile(MPS);
+            }
+            Matcher matcher = pattern.matcher(date);
 
-       }
+            if (matcher.find()) {
+                rebuild(date);
+            } else {
+                System.out.println("не правильно");
+            }
+
+        }
     }
 
     public static void rebuild(String date) {
@@ -35,12 +36,20 @@ public class RegularExpression {
         String[] arrayTime = new String[0];
         String result = "";
         if (array.length == 1) {
-            arrayDate = array[0].split("\\.");
+            if(array[0].contains("/")){
+                arrayDate = array[0].split("/");
+            }else if(array[0].contains(".")){
+                arrayDate = array[0].split("\\.");
+            }
         } else if (array.length == 2) {
-            arrayDate = array[0].split("\\.");
+            if(array[0].contains("/")){
+                arrayDate = array[0].split("/");
+            }else if(array[0].contains(".")){
+                arrayDate = array[0].split("\\.");
+            }
+
             arrayTime = array[1].split(":");
         }
-
         if (arrayDate.length != 0 && arrayTime.length != 0) {
             if (arrayDate.length == 1) {
                 result += "рік: " + arrayDate[0];
@@ -59,9 +68,9 @@ public class RegularExpression {
             }
         } else {
             if (arrayDate.length == 1) {
-                result += "день: " + arrayDate[0];
+                result += "рік: " + arrayDate[0];
             } else if (arrayDate.length == 2) {
-                result += "день: " + arrayDate[0] + ", місяць: " + arrayDate[1];
+                result += "місяць: " + arrayDate[0] + ", рік: " + arrayDate[1];
             } else if (arrayDate.length == 3) {
                 result += "день: " + arrayDate[0] + ", місяць: " + arrayDate[1] + ", рік: " + arrayDate[2];
             }
