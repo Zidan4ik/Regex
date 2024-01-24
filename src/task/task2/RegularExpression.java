@@ -8,21 +8,24 @@ public class RegularExpression {
     public static void main(String[] args) {
         checkEmail();
     }
-    public static void checkEmail(){
+
+    public static void checkEmail() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введіть строку (email) на перевірку правильності: ");
-        String email = scanner.nextLine();
+        while (true) {
+            System.out.println("Введіть строку (email) на перевірку правильності: ");
+            String email = scanner.nextLine();
 
-        String validation = "[a-zA-Z0-9]+@[a-z]{2,5}\\.[a-z]{2,3}";
-        Pattern pattern = Pattern.compile(validation);
-        Matcher matcher = pattern.matcher(email);
+            String validation = "[a-zA-Z0-9]+@[a-z]{2,6}\\.[a-z]{2,4}";
+            Pattern pattern = Pattern.compile(validation);
+            Matcher matcher = pattern.matcher(email);
 
-        if (matcher.find()) {
-            System.out.println("правильно");
-        } else {
-            System.out.println("не правильно");
+            if (matcher.find()) {
+                System.out.println("правильно");
+                break;
+            } else {
+                System.out.println("не правильно");
+            }
         }
-
         scanner.close();
     }
 }
